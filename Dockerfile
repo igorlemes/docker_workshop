@@ -1,36 +1,14 @@
-
-
 # Base image
-FROM rocker/shiny:latest
+FROM alpine:3.14
 
 # Install Conda
-RUN apt-get update && \
-    apt-get install -y wget && \
-    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
-    bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda && \
-    rm Miniconda3-latest-Linux-x86_64.sh
+RUN apk add python3
 
-# Set Conda environment variables
-ENV PATH="/opt/conda/bin:${PATH}"
-ENV CONDA_AUTO_UPDATE_CONDA=false
-
-# Install required packages using Conda
-COPY config.yml /tmp/environment.yml
-RUN conda env create -f /tmp/environment.yml
-RUN conda install -n env -c conda-forge -c bioconda -c R r-leaflet.extras
-RUN conda clean -afy
-
-# Install additional packages using Conda
-RUN /bin/bash -c "source activate $(head -1 /tmp/environment.yml | cut -d' ' -f2)"
-
-# Set the working directory
+# # Set the working directory
 WORKDIR /app
 
-# Copy the Shiny app to the container
-COPY app.R /app/app.R
+# # Copy the Shiny app to the container
+COPY main.py /app/main.py
 
-# Expose the Shiny app port
-EXPOSE 80
-
-# Run the Shiny app
-CMD ["/bin/bash", "-c", "source activate $(head -1 /tmp/environment.yml | cut -d' ' -f2) && Rscript /app/app.R"]
+# # Run the Shiny app
+ENTRYPOINT ["python3", "/app/main.py"]
