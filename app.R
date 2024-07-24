@@ -1,8 +1,3 @@
-#### DASHBOARD PDD - PILOTO 1
-# GABRIEL FELIX gabriel.ferreira@amploengenharia.com.br
-# Criado em 06-06-2024
-
-
 #### 0.0 - PACOTES ####
 
 # manipulacao de dados
@@ -53,25 +48,11 @@ sf::sf_use_s2(FALSE) # Desabilitar o uso do pacote s2, pois o poligono de alguma
 #         F - G
 
 #### 1.0 - DADOS ####
-
-# Carregar shapes
-load("../inputs/shapes.RData") # lista de shapes
-
-# Carregar DwC
-
-#### 2.0 - PALETA DE CORES ####
-
-
-
-#### 3.0 - FUNCOES ####
-
-
-
 #### 4.0 - INTERFACE USUARIO ####
 
 ui <- dashboardPage(
   # titulo do dashboard
-  dashboardHeader(title = "PDD - Piloto 1"),
+  dashboardHeader(title = "")
   # Sidebar do dashboard
   dashboardSidebar(
     # Menu do dashboard
@@ -274,4 +255,4 @@ server <- function(input, output, session) {
 
 #### 6.0 - SHINYAPP ####
 
-shinyApp(ui = ui, server = server)
+runApp(list(ui = ui, server = server), port = 1234, host = "0.0.0.0")

@@ -17,7 +17,7 @@ ENV CONDA_AUTO_UPDATE_CONDA=false
 # Install required packages using Conda
 COPY config.yml /tmp/environment.yml
 RUN conda env create -f /tmp/environment.yml
-RUN conda install -n div_pdd -c conda-forge -c bioconda -c R r-leaflet.extras
+RUN conda install -n env -c conda-forge -c bioconda -c R r-leaflet.extras
 RUN conda clean -afy
 
 # Install additional packages using Conda
@@ -27,10 +27,10 @@ RUN /bin/bash -c "source activate $(head -1 /tmp/environment.yml | cut -d' ' -f2
 WORKDIR /app
 
 # Copy the Shiny app to the container
-COPY app/app.R /app/app/app.R
+COPY app.R /app/app.R
 
 # Expose the Shiny app port
 EXPOSE 80
 
 # Run the Shiny app
-CMD ["/bin/bash", "-c", "source activate $(head -1 /tmp/environment.yml | cut -d' ' -f2) && Rscript app/app.R"]
+CMD ["/bin/bash", "-c", "source activate $(head -1 /tmp/environment.yml | cut -d' ' -f2) && Rscript /app/app.R"]
